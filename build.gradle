@@ -1,0 +1,40 @@
+plugins {
+	id 'java'
+	id 'info.solidsoft.pitest' version '1.7.0'
+}
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+group = 'com.romannumerals'
+
+test {
+	useJUnitPlatform()
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+	testImplementation 'org.hamcrest:hamcrest-all:1.3'
+}
+
+pitest {
+	threads = 4
+	outputFormats = ['XML', 'HTML']
+	jvmArgs = ['-Xmx1024m']
+	fileExtensionsToFilter.addAll('xml', 'orbit')
+	junit5PluginVersion = '0.15'
+	//See https://pitest.org/quickstart/mutators/ for a list of available mutators.
+	mutators = ['CONDITIONALS_BOUNDARY', 'NEGATE_CONDITIONALS', 'REMOVE_CONDITIONALS', 'MATH', 'INCREMENTS', 'INVERT_NEGS',
+				'INLINE_CONSTS', 'EMPTY_RETURNS', 'FALSE_RETURNS', 'TRUE_RETURNS', 'NULL_RETURNS', 'PRIMITIVE_RETURNS',
+				'VOID_METHOD_CALLS', 'NON_VOID_METHOD_CALLS', 'CONSTRUCTOR_CALLS']
+	timestampedReports = false
+}
+
+build.dependsOn 'pitest'
