@@ -15,4 +15,9 @@ public class RomanNumeralConverter {
 
         return first + convertRomanNumeralToArabicNumber(romanNumeral.substring(1));
     }
+
+
+    public String convertToRoman(int i) {
+        return "I";
+    }
 }
